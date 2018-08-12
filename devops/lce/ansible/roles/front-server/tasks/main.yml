@@ -1,0 +1,14 @@
+---
+- name: Create front-server log storage
+  file: path=/var/local/storage/front-server/log state=directory mode="a+rwx"
+
+- name: Create front-server container
+  docker_container:
+    name: front-server
+    image: dregistry.swahome.net:7443/research/jast/front-server:1.0
+    restart_policy: always
+    hostname: front-server
+    ports:
+     - "8080:8080"
+    volumes:
+     - /var/local/storage/postgres/log:/var/log/postgresql

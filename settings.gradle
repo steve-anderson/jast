@@ -1,0 +1,6 @@
+include ':back:messages'
+include ':middle:api'
+include ':middle:server'
+include ':middle:client'
+include ':front:server'
+include ':front:web'
