@@ -2,4 +2,4 @@
 - hosts: lce.swahome.net
   roles:
    - postgres
-   - front-server
+   - activemq

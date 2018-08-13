@@ -5,6 +5,7 @@
 */
 package net.swahome.jast.middle.client;
 
+import net.swahome.jast.back.messages.CreateMessage;
 import net.swahome.jast.back.messages.Message;
 import net.swahome.jast.middle.api.MessageService;
 
@@ -31,6 +32,13 @@ public class ClientMain {
                     throw new IllegalStateException("Failed to create proxy for MessageService");
                 }
                 MessageService service = (MessageService) proxy;
+
+                CreateMessage createMessage = new CreateMessage();
+                createMessage.setSender("steve");
+                createMessage.setReceiver("tom");
+                createMessage.setBody("test complete");
+                service.add(createMessage);
+
                 List<Message> messages = service.get();
                 System.out.println(messages.toString());
             } finally {

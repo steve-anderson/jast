@@ -5,20 +5,18 @@
 */
 package net.swahome.jast.middle.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.swahome.jast.back.messages.CreateMessage;
 import net.swahome.jast.back.messages.Message;
 import net.swahome.jast.middle.api.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ejb.Remote;
-import javax.ejb.Singleton;
-import javax.ejb.Stateful;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.jms.*;
+import javax.ws.rs.InternalServerErrorException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -32,19 +30,23 @@ import static java.util.stream.Collectors.toList;
 public class MessageServiceBean implements MessageService {
     private static final Logger logger = LoggerFactory.getLogger(MessageServiceBean.class);
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    @Resource(lookup = "java:/jms/remoteCF")
+    private ConnectionFactory connectionFactory;
+
+    @Resource(lookup = "java:/jms/queues/createMessageQueue")
+    private Queue queue;
+
     // I know a singleton is thread-safe but I still use the safe ones.
     private static final AtomicLong idSeq = new AtomicLong();
     private static final Map<Long, Message> messageStore = new ConcurrentHashMap<>();
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
     public List<Message> get() {
         logger.debug("returning list of {} messages", messageStore.size());
         return messageStore.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey)).map(Map.Entry::getValue).collect(toList());
     }
 
-    @PUT
-    @Produces({MediaType.APPLICATION_JSON})
     public void add(CreateMessage message) {
         validate(message);
 
@@ -56,8 +58,24 @@ public class MessageServiceBean implements MessageService {
         result.setBody(message.getBody());
 
         messageStore.put(id, result);
+        try {
+            sendMessage(message);
 
-        logger.debug("created message: {}", result);
+            logger.debug("created message: {}", result);
+        } catch (JMSException | JsonProcessingException e) {
+            throw new InternalServerErrorException("Faile to send message", e);
+        }
+    }
+
+    private void sendMessage(CreateMessage message) throws JMSException, JsonProcessingException {
+        try (Connection connection = connectionFactory.createConnection()) {
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            MessageProducer producer = session.createProducer(queue);
+            String json = mapper.writeValueAsString(message);
+            logger.debug("send create message to queue: {}", json);
+            TextMessage textMessage = session.createTextMessage(json);
+            producer.send(textMessage);
+        }
     }
 
     private void validate(CreateMessage message) {

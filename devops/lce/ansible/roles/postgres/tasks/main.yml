@@ -1,9 +1,11 @@
 ---
 - name: Create postgres data storage
   file: path=/var/local/storage/postgres/data state=directory mode="a+rwx"
+  become: yes
 
 - name: Create postgres log storage
   file: path=/var/local/storage/postgres/log state=directory mode="a+rwx"
+  become: yes
 
 - name: Create postgres container
   docker_container:

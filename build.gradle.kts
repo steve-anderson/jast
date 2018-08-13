@@ -60,6 +60,7 @@ subprojects {
 
         add(baseRuntime.name, "ch.qos.logback:logback-classic:1.2.3")
 
+        add(serverCompile.name, "com.fasterxml.jackson.core:jackson-databind:2.9.5")
         add(serverCompileOnly.name, "javax:javaee-api:7.0")
     }
 }

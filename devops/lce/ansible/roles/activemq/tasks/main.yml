@@ -1,0 +1,15 @@
+---
+- name: Create activemq data storage
+  file: path=/var/local/storage/activemq/data state=directory mode="a+rwx"
+
+- name: Create activemq container
+  docker_container:
+    name: activemq
+    image: dregistry.swahome.net:7443/research/devops/activemq:5.15.4
+    restart_policy: always
+    hostname: activemq
+    ports:
+     - "61616:61616"
+     - "8161:8161"
+    volumes:
+     - /var/local/storage/activemq/data:/opt/activemq/data
