@@ -1,2 +1,2 @@
 #!/bin/bash
-docker rm -f front-server middle-server
+docker rm -f front-server middle-server back-server

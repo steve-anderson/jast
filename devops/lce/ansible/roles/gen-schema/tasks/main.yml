@@ -1,0 +1,28 @@
+---
+- name: Get log file list
+  find:
+    paths: "/var/local/storage/postgres/log/"
+  register: log_files
+
+- name: Get latest log file
+  set_fact:
+    latest_log_file: "{{ log_files.files | sort(attribute='mtime',reverse=true) | first }}"
+
+- name: Wait for postgres
+  wait_for:
+    path: "{{ latest_log_file.path }}"
+    search_regex: "database system is ready to accept connections"
+    timeout: 30
+  become: yes
+  become_user: root
+
+- name: Copy the schema file to remote
+  copy:
+    src: "{{ role_path }}/files/jast.sql"
+    dest: "jast.sql"
+
+- name: Copy the schema file into docker
+  command: docker cp jast.sql postgres:/
+
+- name: Run the script in the container
+  command: docker exec postgres psql -U jast -f jast.sql

@@ -13,11 +13,12 @@
     image: dregistry.swahome.net:7443/research/devops/postgres:10.4
     restart_policy: always
     hostname: postgres
+    entrypoint: "/docker-entrypoint.sh -c logging_collector=on -c log_destination=stderr -c log_directory=/var/log/postgresql"
     ports:
      - "5432:5432"
     volumes:
      - /var/local/storage/postgres/data:/var/lib/postgresql/data
      - /var/local/storage/postgres/log:/var/log/postgresql
     env:
-      POSTGRES_USER: "systemhub"
-      POSTGRES_PASSWORD: "changeit"
+      POSTGRES_USER: "jast"
+      POSTGRES_PASSWORD: "letMeInN0w="

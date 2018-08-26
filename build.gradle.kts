@@ -55,6 +55,8 @@ subprojects {
     val serverRuntime by configurations.creating
     serverRuntime.extendsFrom(baseRuntime)
 
+    val serverExtraDeployment by configurations.creating
+
     dependencies {
         add(baseCompile.name, "org.slf4j:slf4j-api:1.7.25")
 
@@ -62,5 +64,10 @@ subprojects {
 
         add(serverCompile.name, "com.fasterxml.jackson.core:jackson-databind:2.9.5")
         add(serverCompileOnly.name, "javax:javaee-api:7.0")
+
+        add(serverExtraDeployment.name, "org.postgresql:postgresql:42.2.4")
+        add(serverExtraDeployment.name, "org.apache.activemq:activemq-rar:5.15.4") {
+            setTransitive(false)
+        }
     }
 }
