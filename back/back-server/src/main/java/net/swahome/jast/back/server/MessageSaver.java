@@ -23,10 +23,7 @@ import java.io.IOException;
 
 @MessageDriven(
     activationConfig = {
-//        @ActivationConfigProperty(propertyName = "useJNDI", propertyValue = "true"),
-        @ActivationConfigProperty(propertyName = "connectionFactoryLookup", propertyValue = "java:/jms/remoteCF"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-//        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:/jms/queues/createMessageQueue"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "createMessageQueue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")
     }

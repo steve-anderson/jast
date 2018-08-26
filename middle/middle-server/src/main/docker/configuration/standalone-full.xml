@@ -61,6 +61,11 @@
                     <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
                 </authorization>
             </security-realm>
+            <security-realm name="ejb-security-realm">
+                <server-identities>
+                    <secret value="bGV0TWVJbk4wdz0="/>
+                </server-identities>
+            </security-realm>
         </security-realms>
         <audit-log>
             <formatters>
@@ -452,6 +457,14 @@
         <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
         <subsystem xmlns="urn:jboss:domain:remoting:4.0">
             <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm"/>
+            <outbound-connections>
+                <remote-outbound-connection name="remote-ejb-connection" outbound-socket-binding-ref="remote-ejb" username="ejbclient" security-realm="ejb-security-realm" protocol="http-remoting">
+                    <properties>
+                        <property name="SASL_POLICY_NOANONYMOUS" value="false"/>
+                        <property name="SSL_ENABLED" value="false"/>
+                    </properties>
+                </remote-outbound-connection>
+            </outbound-connections>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:request-controller:1.0"/>
         <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
@@ -584,6 +597,9 @@
         <socket-binding name="iiop-ssl" interface="unsecure" port="3529"/>
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
+        </outbound-socket-binding>
+        <outbound-socket-binding name="remote-ejb">
+            <remote-destination host="back-server" port="8080"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>

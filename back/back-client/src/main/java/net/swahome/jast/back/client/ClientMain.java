@@ -3,11 +3,10 @@
 
   Copyright 2018, Steven W. Anderson
 */
-package net.swahome.jast.middle.client;
+package net.swahome.jast.back.client;
 
-import net.swahome.jast.back.api.CreateMessage;
 import net.swahome.jast.back.api.Message;
-import net.swahome.jast.middle.api.MessageService;
+import net.swahome.jast.back.api.MessageDao;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,7 +18,7 @@ public class ClientMain {
         try {
             Properties jndiProps = new Properties();
             jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-            jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:8081");
+            jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:8082");
             jndiProps.put(Context.SECURITY_PRINCIPAL, "ejbclient");
             jndiProps.put(Context.SECURITY_CREDENTIALS, "letMeInN0w=");
 //            jndiProps.put(Context.SECURITY_CREDENTIALS, "bad");
@@ -27,19 +26,13 @@ public class ClientMain {
             // create a context passing these properties
             Context ic = new InitialContext(jndiProps);
             try {
-                Object proxy = ic.lookup("middle-server/MessageServiceBean!" + MessageService.class.getName());
+                Object proxy = ic.lookup("back-server/MessageDaoBean!" + MessageDao.class.getName());
                 if (proxy == null) {
                     throw new IllegalStateException("Failed to create proxy for MessageService");
                 }
-                MessageService service = (MessageService) proxy;
+                MessageDao service = (MessageDao) proxy;
 
-                CreateMessage createMessage = new CreateMessage();
-                createMessage.setSender("steve");
-                createMessage.setReceiver("tom");
-                createMessage.setBody("test complete");
-                service.add(createMessage);
-
-                List<Message> messages = service.get();
+                List<Message> messages = service.list();
                 System.out.println(messages.toString());
             } finally {
                 ic.close();
@@ -48,6 +41,4 @@ public class ClientMain {
             e.printStackTrace();
         }
     }
-
-
 }
