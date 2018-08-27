@@ -3,6 +3,9 @@
   find:
     paths: "/var/local/storage/postgres/log/"
   register: log_files
+  retries: 5
+  delay: 4
+  until: log_files and log_files.files
 
 - name: Get latest log file
   set_fact:
@@ -25,4 +28,4 @@
   command: docker cp jast.sql postgres:/
 
 - name: Run the script in the container
-  command: docker exec postgres psql -U jast -f jast.sql
+  command: docker exec postgres psql -d postgres -U jast -f jast.sql
