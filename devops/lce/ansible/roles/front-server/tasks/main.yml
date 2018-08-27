@@ -8,7 +8,11 @@
     image: dregistry.swahome.net:7443/research/jast/front-server:1.0
     restart_policy: always
     hostname: front-server
+    command: "/opt/jboss/wildfly/bin/standalone.sh -Djboss.node.name=front-server --debug 5000 -b 0.0.0.0 -bmanagement 0.0.0.0"
+    links:
+      - "middle-server:middle-server"
     ports:
      - "8080:8080"
+     - "9990:9990"
     volumes:
-     - /var/local/storage/postgres/log:/var/log/postgresql
+     - /var/local/storage/front-server/log:/opt/jboss/wildfly/standalone/log

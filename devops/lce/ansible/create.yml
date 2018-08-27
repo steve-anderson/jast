@@ -4,3 +4,6 @@
    - postgres
    - activemq
    - gen-schema
+   - back-server
+   - middle-server
+   - front-server

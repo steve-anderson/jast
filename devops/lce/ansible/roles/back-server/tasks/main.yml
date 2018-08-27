@@ -1,0 +1,19 @@
+---
+- name: Create back-server log storage
+  file: path=/var/local/storage/back-server/log state=directory mode="a+rwx"
+
+- name: Create back-server container
+  docker_container:
+    name: back-server
+    image: dregistry.swahome.net:7443/research/jast/back-server:1.0
+    restart_policy: always
+    hostname: back-server
+    command: "/opt/jboss/wildfly/bin/standalone.sh --server-config=standalone-full.xml -Djboss.node.name=back-server --debug 5000 -b 0.0.0.0 -bmanagement 0.0.0.0"
+    links:
+     - "activemq:activemq"
+     - "postgres:postgres"
+    ports:
+     - "8082:8080"
+     - "9992:9990"
+    volumes:
+     - /var/local/storage/back-server/log:/opt/jboss/wildfly/standalone/log
