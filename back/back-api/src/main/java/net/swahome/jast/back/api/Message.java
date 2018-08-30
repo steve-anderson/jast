@@ -8,6 +8,9 @@ package net.swahome.jast.back.api;
 
 import java.io.Serializable;
 
+/**
+ * A message sent to someone.
+ */
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -60,7 +60,7 @@
             </security-realm>
             <security-realm name="ejb-security-realm">
                 <server-identities>
-                    <secret value="bGV0TWVJbk4wdz0="/>
+                    <secret value="Q2hhbmdlTTM9"/>
                 </server-identities>
             </security-realm>
         </security-realms>

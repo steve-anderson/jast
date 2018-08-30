@@ -21,6 +21,9 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import java.io.IOException;
 
+/**
+ * Read CreateMessage JSON from queue, createMessageQueue, and call MessageDaoBean to save it.
+ */
 @MessageDriven(
     activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),

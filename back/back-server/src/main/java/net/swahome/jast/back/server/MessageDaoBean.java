@@ -21,6 +21,9 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Use JPA to read and write message to storage.
+ */
 @Stateless
 @Remote(MessageDao.class)
 @LocalBean

@@ -14,14 +14,17 @@ import javax.naming.InitialContext;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * Remote EJB test for MessageServiceBean
+ */
 public class ClientMain {
     public static void main(String[] args) {
         try {
             Properties jndiProps = new Properties();
             jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-            jndiProps.put(Context.PROVIDER_URL, "http-remoting://localhost:8081");
+            jndiProps.put(Context.PROVIDER_URL, "http-remoting://lce.swahome.net:8081");
             jndiProps.put(Context.SECURITY_PRINCIPAL, "ejbclient");
-            jndiProps.put(Context.SECURITY_CREDENTIALS, "letMeInN0w=");
+            jndiProps.put(Context.SECURITY_CREDENTIALS, "ChangeM3=");
 //            jndiProps.put(Context.SECURITY_CREDENTIALS, "bad");
             jndiProps.put("jboss.naming.client.ejb.context", true);
             // create a context passing these properties

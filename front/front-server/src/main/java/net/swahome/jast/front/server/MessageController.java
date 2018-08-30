@@ -23,11 +23,21 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The MessageController is a JAX-RS EJB for saving and listing messages.
+ *
+ * It does remote EJB calls to MessageService.
+ */
 @Stateless
 @Path("/messages")
 public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
+    /**
+     * Get the list of saved messages.
+     *
+     * @return a List of Messages
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -56,6 +66,11 @@ public class MessageController {
         }
     }
 
+    /**
+     * Save a message.
+     *
+     * @param message The data for creating a message.
+     */
     @PUT
     public void add(CreateMessage message) {
         try {

@@ -10,6 +10,9 @@ import net.swahome.jast.back.api.Message;
 
 import java.util.List;
 
+/**
+ * Provide reading and writing messages.
+ */
 public interface MessageService {
     List<Message> get();
 

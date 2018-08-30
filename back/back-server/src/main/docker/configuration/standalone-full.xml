@@ -158,7 +158,7 @@
                     <driver>postgresql-42.2.4.jar</driver>
                     <security>
                         <user-name>jast</user-name>
-                        <password>letMeInN0w=</password>
+                        <password>ChangeM3=</password>
                     </security>
                 </datasource>
                 <drivers>

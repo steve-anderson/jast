@@ -11,6 +11,9 @@ import net.swahome.jast.back.api.Message;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * JPA entity for storing a Message.
+ */
 @Entity
 @Table(name = "Message")
 public class EMessage implements Serializable {

@@ -16,5 +16,6 @@ gradle-app.setting
 # intellij
 *.iml
 .idea/
+.idea/**
 **/out/
 !src/**/out/

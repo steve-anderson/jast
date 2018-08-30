@@ -28,6 +28,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The MessageServiceBean provides a middle-tier for saving and reading the Message.
+ *
+ */
 @Stateless
 @Remote(MessageService.class)
 public class MessageServiceBean implements MessageService {
@@ -41,6 +45,11 @@ public class MessageServiceBean implements MessageService {
     @Resource(lookup = "java:/jms/queues/createMessageQueue")
     private Queue queue;
 
+    /**
+     * Read all the messages.
+     *
+     * @return a List of messages
+     */
     public List<Message> get() {
         try {
             MessageDao dao = getMessageDao();
@@ -58,6 +67,11 @@ public class MessageServiceBean implements MessageService {
         }
     }
 
+    /**
+     * Create a message.
+     *
+     * @param message The data for the message.
+     */
     public void add(CreateMessage message) {
         validate(message);
 

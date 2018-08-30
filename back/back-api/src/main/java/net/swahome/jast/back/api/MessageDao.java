@@ -7,6 +7,9 @@ package net.swahome.jast.back.api;
 
 import java.util.List;
 
+/**
+ * Read all the messages from storage.
+ */
 public interface MessageDao {
     List<Message> list();
 }

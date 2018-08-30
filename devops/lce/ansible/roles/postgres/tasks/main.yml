@@ -21,4 +21,4 @@
      - /var/local/storage/postgres/log:/var/log/postgresql
     env:
       POSTGRES_USER: "jast"
-      POSTGRES_PASSWORD: "letMeInN0w="
+      POSTGRES_PASSWORD: "ChangeM3="
