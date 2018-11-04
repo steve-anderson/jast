@@ -1,15 +1,9 @@
 import com.bmuschko.gradle.docker.DockerExtension
 import com.bmuschko.gradle.docker.DockerRegistryCredentials
 
-buildscript {
-    dependencies {
-        classpath("com.bmuschko:gradle-docker-plugin:3.6.0")
-    }
-}
-
 plugins {
     java
-    id("com.bmuschko.docker-java-application") version "3.6.0" apply false
+    id("com.bmuschko.docker-java-application") version "3.6.2" apply false
 }
 
 allprojects {
@@ -39,8 +33,7 @@ subprojects {
     }
 
     val docker: DockerExtension by extensions
-    docker.registryCredentials = DockerRegistryCredentials()
-    with(docker.registryCredentials) {
+    docker.registryCredentials {
         url = "https://$dockerRegistryRepo/"
         username = dockerRegistryUser
         password = dockerRegistryPassword
