@@ -28,4 +28,4 @@
   command: docker cp jast.sql postgres:/
 
 - name: Run the script in the container
-  command: docker exec postgres psql -d postgres -U jast -f jast.sql
+  command: docker exec postgres psql -U jast -f jast.sql

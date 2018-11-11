@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-server
+  labels:
+    app: front-server
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: front-server
+  externalIPs: ["192.168.99.40"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-server
+  labels:
+    app: front-server
+spec:
+  selector:
+    matchLabels:
+      app: front-server
+  template:
+    metadata:
+      labels:
+        app: front-server
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: front-server
+        image: dregistry.swahome.net:7443/research/jast/front-server:1.0
+        command: ["/opt/jboss/wildfly/bin/standalone.sh","-Djboss.node.name=front-server","--debug","5000","-b","0.0.0.0","-bmanagement","0.0.0.0"]
+        ports:
+        - containerPort: 8080
+          name: http

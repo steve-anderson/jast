@@ -32,7 +32,7 @@ spec:
       containers:
       - name: back-server
         image: dregistry.swahome.net:7443/research/jast/back-server:1.0
-        command: ["/opt/jboss/wildfly/bin/standalone.sh","--server-config=standalone-full.xml","-Djboss.node.name=back-server","--debug 5000","-b 0.0.0.0","-bmanagement 0.0.0.0"]
+        command: ["/opt/jboss/wildfly/bin/standalone.sh","--server-config=standalone-full.xml","-Djboss.node.name=back-server","--debug","5000","-b","0.0.0.0","-bmanagement","0.0.0.0"]
         ports:
         - containerPort: 8080
           name: http
