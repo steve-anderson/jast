@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  ports:
+  - port: 5432
+    name: postgres
+  selector:
+    app: postgres
+  clusterIP: None
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-files
+data:
+  jast.sql: |
+    CREATE TABLE IF NOT EXISTS Message (
+    messageId BIGSERIAL NOT NULL PRIMARY KEY,
+    sender VARCHAR(256) NOT NULL,
+    receiver VARCHAR(256)  NOT NULL,
+    body TEXT NOT NULL
+    );
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: "postgres"
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: w01.k8s.swahome.net
+      initContainers:
+      - name: fix-perm
+        image: busybox
+        command: ["sh","-c","chmod 777 /tmp/data /tmp/log"]
+        volumeMounts:
+        - name: postgres-data-local-storage
+          mountPath: /tmp/data
+        - name: postgres-log-local-storage
+          mountPath: /tmp/log
+      containers:
+      - name: postgres
+        image: dregistry.swahome.net:7443/research/devops/postgres:10.4
+        command: ["/docker-entrypoint.sh","-c","logging_collector=on","-c","log_destination=stderr","-c","log_directory=/var/log/postgresql"]
+        env:
+        - name: POSTGRES_USER
+          value: "jast"
+        - name: POSTGRES_PASSWORD
+          value: "ChangeM3="
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: postgres-data-local-storage
+          mountPath: /var/lib/postgresql/data
+        - name: postgres-log-local-storage
+          mountPath: /var/log/postgresql
+        - name: postgres-initdb-volume
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: postgres-data-local-storage
+        hostPath:
+          path: /var/local/storage/postgres/data
+          type: DirectoryOrCreate
+      - name: postgres-log-local-storage
+        hostPath:
+          path: /var/local/storage/postgres/log
+          type: DirectoryOrCreate
+      - name: postgres-initdb-volume
+        configMap:
+          name: postgres-init-files

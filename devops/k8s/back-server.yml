@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-server
+  labels:
+    app: back-server
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: back-server
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-server
+  labels:
+    app: back-server
+spec:
+  selector:
+    matchLabels:
+      app: back-server
+  template:
+    metadata:
+      labels:
+        app: back-server
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: back-server
+        image: dregistry.swahome.net:7443/research/jast/back-server:1.0
+        command: ["/opt/jboss/wildfly/bin/standalone.sh","--server-config=standalone-full.xml","-Djboss.node.name=back-server","--debug 5000","-b 0.0.0.0","-bmanagement 0.0.0.0"]
+        ports:
+        - containerPort: 8080
+          name: http
