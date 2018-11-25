@@ -43,10 +43,8 @@ spec:
       labels:
         app: postgres
     spec:
-      imagePullSecrets:
-      - name: regcred
       nodeSelector:
-        kubernetes.io/hostname: w01.k8s.swahome.net
+        stateful-target: "0"
       initContainers:
       - name: fix-perm
         image: busybox
@@ -58,7 +56,7 @@ spec:
           mountPath: /tmp/log
       containers:
       - name: postgres
-        image: dregistry.swahome.net:7443/research/devops/postgres:10.4
+        image: registry.lxdk8s:5000/research/devops/postgres:10.4
         command: ["/docker-entrypoint.sh","-c","logging_collector=on","-c","log_destination=stderr","-c","log_directory=/var/log/postgresql"]
         env:
         - name: POSTGRES_USER
