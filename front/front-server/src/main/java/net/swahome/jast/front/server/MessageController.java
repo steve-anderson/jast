@@ -7,6 +7,7 @@ package net.swahome.jast.front.server;
 
 import net.swahome.jast.back.api.CreateMessage;
 import net.swahome.jast.back.api.Message;
+import net.swahome.jast.front.api.GetMessagesResponse;
 import net.swahome.jast.middle.api.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.net.InetAddress;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +43,10 @@ public class MessageController {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<Message> get() {
+    public GetMessagesResponse get() {
 
         try {
+            String hostname = InetAddress.getLocalHost().getHostName();
             MessageService service = getMessageService();
             List<Message> messages = service.get();
 
@@ -54,7 +57,7 @@ public class MessageController {
 
             logger.debug("returning list of {} api", messages.size());
 
-            return messages;
+            return new GetMessagesResponse(hostname, messages);
         } catch (Exception e) {
             logger.error("Failed to get api", e);
 
