@@ -10,7 +10,8 @@ spec:
     name: http
   selector:
     app: front-server
-  externalIPs: ["10.41.77.144"]
+# if using a ingress, the service can't have an external ip.
+#  externalIPs: ["10.41.77.144"]
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: front-server-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "INGRESS-SESSION-ID"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
+
+spec:
+  rules:
+    - host: "www.lxdk8s"
+      http:
+        paths:
+          - path: /front-server
+            backend:
+              serviceName: front-server
+              servicePort: 8080
