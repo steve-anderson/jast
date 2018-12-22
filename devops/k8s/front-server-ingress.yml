@@ -9,6 +9,10 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
 
 spec:
+  tls:
+    - hosts:
+      - www.lxdk8s
+      secretName: www-lxdk8s-certs
   rules:
     - host: "www.lxdk8s"
       http:
