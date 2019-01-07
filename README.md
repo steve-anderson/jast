@@ -1,5 +1,5 @@
 # JAST
-Parts of this project are tied to infrastructure that I run using VirtualBox in VMs.
+Parts of this project are tied to infrastructure that I run using VirtualBox VMs and/or an kubernetes cluster inside LXD nodes.
 
 ## Overview
 The purpose of the java application server test (JAST) is to have three Java EE 7 applications in separate Docker containers doing remote EJB calls and MDB processing. These application process data in the order of `front-server` to `middle-server` to `back-server`.
