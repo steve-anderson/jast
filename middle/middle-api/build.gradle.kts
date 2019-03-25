@@ -1,14 +1,9 @@
 plugins {
-    base
-    java
+    `java-library`
 }
 
 base.archivesBaseName = "middle-api"
 
-val serverCompileOnly by configurations
-val compileOnly: Configuration by configurations
-compileOnly.extendsFrom(serverCompileOnly)
-
 dependencies {
-    compile(project(":back:back-api"))
+    api(project(":back:back-api"))
 }

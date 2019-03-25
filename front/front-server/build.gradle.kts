@@ -2,7 +2,6 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
 plugins {
-    base
     java
     war
     id("com.bmuschko.docker-java-application")
@@ -10,9 +9,9 @@ plugins {
 
 base.archivesBaseName = "front-server"
 
-val serverCompile by configurations
-val compile: Configuration by configurations
-compile.extendsFrom(serverCompile)
+val serverImplementation by configurations
+val implementation: Configuration by configurations
+implementation.extendsFrom(serverImplementation)
 
 val serverRuntime by configurations
 val runtime: Configuration by configurations
@@ -23,7 +22,7 @@ val compileOnly: Configuration by configurations
 compileOnly.extendsFrom(serverCompileOnly)
 
 dependencies {
-    compile(project(":middle:middle-api"))
+    implementation(project(":middle:middle-api"))
 }
 
 val dockerRegistryRepo: String by project

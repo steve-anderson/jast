@@ -2,7 +2,6 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
 plugins {
-    base
     java
     war
     id("com.bmuschko.docker-java-application")
@@ -10,9 +9,9 @@ plugins {
 
 base.archivesBaseName = "middle-server"
 
-val serverCompile by configurations
-val compile: Configuration by configurations
-compile.extendsFrom(serverCompile)
+val serverImplementation by configurations
+val implementation: Configuration by configurations
+implementation.extendsFrom(serverImplementation)
 
 val serverRuntime by configurations
 val runtime: Configuration by configurations

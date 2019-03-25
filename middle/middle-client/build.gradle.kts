@@ -9,10 +9,10 @@ val serverCompileOnly by configurations
 val compileOnly by configurations
 compileOnly.extendsFrom(serverCompileOnly)
 
-val remoteClientCompile by configurations
-val compile by configurations
-compile.extendsFrom(remoteClientCompile)
+val remoteClientImplementation by configurations
+val implementation by configurations
+implementation.extendsFrom(remoteClientImplementation)
 
 dependencies {
-    compile(project(":middle:middle-api"))
+    implementation(project(":middle:middle-api"))
 }

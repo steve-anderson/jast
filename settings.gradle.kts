@@ -1,0 +1,8 @@
+include( ":back:back-api")
+include( ":back:back-server")
+include(":back:back-client")
+include( ":middle:middle-api")
+include( ":middle:middle-server")
+include( ":middle:middle-client")
+include( ":front:front-server")
+include( ":front:front-web")
