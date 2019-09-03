@@ -1,5 +1,5 @@
 # Copyright 2018, Steven W. Anderson
-FROM dregistry.swahome.net:7443/research/devops/nginx:1.15.0
+FROM nginx:1.15.0
 
 RUN rm /var/log/nginx/*
 

@@ -1,5 +1,5 @@
 # Copyright 2018, Steven W. Anderson
-FROM dregistry.swahome.net:7443/research/devops/wildfly:13.0.0.Final
+FROM jboss/wildfly:13.0.0.Final
 
 USER jboss
 

@@ -1,0 +1,20 @@
+# never got it to work yet
+# use nginx front-server-ingress.yml instead
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: front-server-vs
+spec:
+  hosts:
+  - "www.lxdk8s"
+  gateways:
+  - www-lxdk8s-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /front-server
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: front-server

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: middle-server
+  labels:
+    app: middle-server
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: middle-server
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: middle-server
+  labels:
+    app: middle-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: middle-server
+  template:
+    metadata:
+      labels:
+        app: middle-server
+    spec:
+      containers:
+      - name: middle-server
+        image: localhost:30000/research/jast/middle-server:1.0
+        command: ["/opt/jboss/wildfly/bin/standalone.sh","--server-config=standalone-full.xml","-Djboss.node.name=middle-server","--debug","5000","-b","0.0.0.0","-bmanagement","0.0.0.0"]
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+          - name: "AMQ_HOST_URL"
+            value: "ssl://b-0223e198-c2ac-41ae-b5fd-3f3fde683ca6-1.mq.us-east-1.amazonaws.com:61617"
+          - name: "AMQ_USERNAME"
+            value: "admin"
+          - name: "AMQ_PASSWORD"
+            value: "ChangeM3Now$"

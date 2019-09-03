@@ -154,11 +154,11 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/JastDs" pool-name="JastCp" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://postgres:5432/postgres</connection-url>
+                    <connection-url>jdbc:postgresql://${env.DB_HOST:postgres}:5432/postgres</connection-url>
                     <driver>postgresql-42.2.4.jar</driver>
                     <security>
-                        <user-name>jast</user-name>
-                        <password>ChangeM3=</password>
+                        <user-name>${env.DB_USERNAME:jast}</user-name>
+                        <password>${env.DB_PASSWORD:ChangeM3=}</password>
                     </security>
                 </datasource>
                 <drivers>
@@ -547,9 +547,9 @@
                     <archive>activemq-rar.rar</archive>
                     <transaction-support>XATransaction</transaction-support>
                     <config-property name="UseInboundSession">false</config-property>
-                    <config-property name="ServerUrl">tcp://activemq:61616?jms.rmIdFromConnectionId=true</config-property>
-                    <config-property name="UserName">admin</config-property>
-                    <config-property name="Password">admin</config-property>
+                    <config-property name="ServerUrl">${env.AMQ_HOST_URL:tcp://activemq:61616}?jms.rmIdFromConnectionId=true</config-property>
+                    <config-property name="UserName">${env.AMQ_USERNAME:admin}</config-property>
+                    <config-property name="Password">${env.AMQ_PASSWORD:admin}</config-property>
                     <connection-definitions>
                         <connection-definition class-name="org.apache.activemq.ra.ActiveMQManagedConnectionFactory" jndi-name="java:/jms/remoteCF" enabled="true" pool-name="RemoteConnectionFactory">
                             <xa-pool>
