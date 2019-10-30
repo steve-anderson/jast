@@ -31,20 +31,21 @@ spec:
       containers:
       - name: back-server
         image: localhost:30000/research/jast/back-server:1.0
+        imagePullPolicy: Always
         command: ["/opt/jboss/wildfly/bin/standalone.sh","--server-config=standalone-full.xml","-Djboss.node.name=back-server","--debug","5000","-b","0.0.0.0","-bmanagement","0.0.0.0"]
         ports:
         - containerPort: 8080
           name: http
         env:
           - name: "AMQ_HOST_URL"
-            value: "ssl://b-0223e198-c2ac-41ae-b5fd-3f3fde683ca6-1.mq.us-east-1.amazonaws.com:61617"
+            value: "ssl://b-76a485a3-7736-460e-9fb0-f470a76d0d5b-1.mq.us-east-1.amazonaws.com:61617"
           - name: "AMQ_USERNAME"
             value: "admin"
           - name: "AMQ_PASSWORD"
-            value: "ChangeM3Now$"
+            value: "theRa1nFallsFast$"
           - name: "DB_HOST"
             value: "swanderson1-postgres.cl8ysnnjngtw.us-east-1.rds.amazonaws.com"
           - name: "DB_USERNAME"
             value: "jast"
           - name: "DB_PASSWORD"
-            value: "ChangeM3="
+            value: "theSn0wFallsFast$"

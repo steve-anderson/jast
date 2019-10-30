@@ -35,6 +35,7 @@ spec:
       containers:
       - name: front-server
         image: localhost:30000/research/jast/front-server:1.0
+        imagePullPolicy: Always
         command: ["/opt/jboss/wildfly/bin/standalone.sh","-Djboss.node.name=front-server","--debug","5000","-b","0.0.0.0","-bmanagement","0.0.0.0"]
         ports:
         - containerPort: 8080
